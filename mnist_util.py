@@ -7,7 +7,7 @@ def mnist_read_images(filename):
     magic, count, rows, cols = struct.unpack_from('>iiii', bytes)
     if magic != 2051:
         raise Exception('failed to read mnist images from {}'.format(filename))
-    images = np.frombuffer(bytes[16:], dtype='uint8')
+    images = np.frombuffer(bytes, dtype='uint8', offset=16)
     images = images.reshape(count, rows * cols)
     return images, rows, cols
 
@@ -27,7 +27,7 @@ def mnist_read_labels(filename, one_hot_encoding=False):
     if magic != 2049:
         raise Exception('failed to read mnist labels from {}'.format(filename))
 
-    labels = np.frombuffer(bytes[8:], dtype='uint8')
+    labels = np.frombuffer(bytes, dtype='uint8', offset=8)
     if one_hot_encoding:
         return mnist_one_hot_encode(labels)
     else:
