@@ -29,9 +29,9 @@ print('Training model...', flush=True, end='')
 ###
 ### CHOOSE MODEL HERE
 ###
-# model = linear_model.SGDClassifier()
+model = linear_model.SGDClassifier()
 # model = neighbors.KNeighborsClassifier()
-model = svm.SVC(gamma=0.001)
+# model = svm.SVC(gamma=0.001)
 
 # Uncomment next line to use a smaller sample of the training data
 # train_images, train_labels = sample_rows(train_images, train_labels, 5000)
