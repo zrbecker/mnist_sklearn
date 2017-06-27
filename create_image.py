@@ -16,7 +16,7 @@ parser.add_argument('--width', type=int, default=1920)
 parser.add_argument('--height', type=int, default=1080)
 args = parser.parse_args()
 
-images, rows, cols = mnist_read_images(args.input)
+images = mnist_read_images(args.input)
 if args.cols * args.rows > len(images):
     args.rows = math.ceil(count / args.cols)
 
@@ -27,13 +27,15 @@ else:
     images_index_sample = range(args.cols * args.rows)
 images_sample = images[images_index_sample]
 
-output_image = Image.new('L', (cols * args.cols, rows * args.rows))
+width = images.shape[2]
+height = images.shape[1]
+output_image = Image.new('L', (width * args.cols, height * args.rows))
 for index, pixels in enumerate(images_sample):
-    image = Image.fromarray(pixels.reshape(rows, cols), 'L')
-    left = cols * (index % args.cols)
-    right = left + cols
-    upper = rows * (index // args.cols)
-    lower = upper + rows
+    image = Image.fromarray(pixels, 'L')
+    left = width * (index % args.cols)
+    right = left + width
+    upper = image.height * (index // args.cols)
+    lower = upper + height
     output_image.paste(image, (left, upper, right, lower))
 
 if args.resize:

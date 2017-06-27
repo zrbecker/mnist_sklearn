@@ -8,8 +8,8 @@ def mnist_read_images(filename):
     if magic != 2051:
         raise Exception('failed to read mnist images from {}'.format(filename))
     images = np.frombuffer(bytes, dtype='uint8', offset=16)
-    images = images.reshape(count, rows * cols)
-    return images, rows, cols
+    images = images.reshape(count, rows, cols)
+    return images
 
 def mnist_one_hot_encode(labels):
     max_label = max(labels)
@@ -34,6 +34,6 @@ def mnist_read_labels(filename, one_hot_encoding=False):
         return labels
 
 def mnist_read(images_filename, labels_filename, one_hot_encoding=False):
-    images, rows, cols = mnist_read_images(images_filename)
+    images = mnist_read_images(images_filename)
     labels = mnist_read_labels(labels_filename, one_hot_encoding)
-    return images, rows, cols, labels
+    return images, labels
